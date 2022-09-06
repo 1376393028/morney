@@ -1,6 +1,8 @@
 <template>
   <div id="Statistics">
     Statistics
+    <Nav />
+
   </div>
 </template>
 

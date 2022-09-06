@@ -1,12 +1,13 @@
 <template>
   <div id="Money">
     Money
+    <Nav />
   </div>
 </template>
 
 <script lang="ts">
   export default {
-    name: 'Money'
+    name: 'Money',
   };
 </script>
 <style lang="scss" scoped>
