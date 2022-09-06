@@ -1,12 +1,10 @@
 <template>
-  <div id="">
-    <div>
-      <router-link to="/money">Money</router-link>
+  <div class="nav">
+    <router-link to="/money">Money</router-link>
       |
       <router-link to="/labels">Labels</router-link>
       |
       <router-link to="/statistics">Statistics</router-link>
-    </div>
   </div>
 </template>
 
@@ -16,5 +14,8 @@
   };
 </script>
 <style lang="scss" scoped>
-
+.nav {
+    border: 1px solid red;
+    box-sizing: border-box;
+}
 </style>
