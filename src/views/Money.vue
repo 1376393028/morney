@@ -1,30 +1,21 @@
 <template>
-  <div class="nav-wrapper">
-    <div class="content">
+  <div>
+    <Layout>
       <p>money</p>
-    </div>
-    <Nav />
+    </Layout>
   </div>
 </template>
 
 <script lang="ts">
+import Layout from '@/components/Layout.vue';
   export default {
+  components: { Layout },
     name: 'Money',
   };
 </script>
-<style lang="scss" scoped>
-.nav-wrapper {
-  border: 1px solid pink;
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-}
 
-.content {
-  overflow: auto;
-  border: 1px solid blue;
-  flex-grow: 1;
-}
+<style lang="scss" scoped>
+
 </style>
 
 
