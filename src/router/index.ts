@@ -1,28 +1,28 @@
 import Vue from 'vue';
-import VueRouter, { RouteConfig } from 'vue-router';
+import VueRouter from 'vue-router';
 
 Vue.use(VueRouter);
 
-const routes: Array<RouteConfig> = [
+const routes = [
   {
     path: '/',
     redirect: '/money'
   },
   {
     path: '/money',
-    component: () => import('@/views/Money.vue'),
+    component: () => import('@/views/Money.vue')
   },
   {
     path: '/labels',
-    component: () => import('@/views/Labels.vue'),
+    component: () => import('@/views/Labels.vue')
   },
   {
     path: '/statistics',
-    component: () => import('@/views/Statistics.vue'),
+    component: () => import('@/views/Statistics.vue')
   },
   {
-    path: '/*',
-    component: () => import('@/views/NotFound.vue'),
+    path: '*',
+    component: () => import('@/views/NotFound.vue') 
   }
 ]
 
@@ -30,4 +30,4 @@ const router = new VueRouter({
   routes
 })
 
-export default router
+export default router;
