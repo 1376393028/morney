@@ -3,3 +3,15 @@
     margin: 0;
     box-sizing: border-box;
   }
+
+  ul, ol {
+    list-style: none;
+  }
+
+  button, input {
+    font: inherit;
+  }
+
+  :focus {
+    outline: none;
+  }
