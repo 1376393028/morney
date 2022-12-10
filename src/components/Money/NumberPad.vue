@@ -1,37 +1,69 @@
 <template>
-    <div class="numberPad">
-        <div class="output">100</div>
-        <div class="buttons">
-          <button>1</button>
-          <button>2</button>
-          <button>3</button>
-          <button>+</button>
-          <button>删除</button>
-          <button>4</button>
-          <button>5</button>
-          <button>6</button>
-          <button>-</button>
-          <button>清空</button>
-          <button>7</button>
-          <button>8</button>
-          <button>9</button>
-          <button>x</button>
-          <button class="ok">ok</button>
-          <button class="zero">0</button>
-          <button>.</button>
-          <button>%</button>
-        </div>
-      </div>
+  <div class="numberPad">
+    <div class="output">{{ output || 0 }}</div>
+    <div class="buttons" @click="enterKey">
+      <button>1</button>
+      <button>2</button>
+      <button>3</button>
+      <button>删除</button>
+      <button>4</button>
+      <button>5</button>
+      <button>6</button>
+      <button>清空</button>
+      <button>7</button>
+      <button>8</button>
+      <button>9</button>
+      <button class="ok">ok</button>
+      <button class="zero">0</button>
+      <button>.</button>
+    </div>
+  </div>
 </template>
 
 <script lang="ts">
-    export default {
-        name: 'NumberPad'
+import Vue from "vue";
+import { Component } from "vue-property-decorator";
+@Component
+export default class NumberPad extends Vue {
+  output = "";
+  enterKey(e: MouseEvent) {
+    let target = e.target as HTMLButtonElement;
+    let key = target.textContent as string;
+    if(key === 'ok') { return; }
+    if (key === "清空") {
+      this.output = "";
+      return;
     }
+    let len = this.output.length;
+    if (key === "删除") {
+      if(this.output === "") { return; }
+      this.output = this.output.slice(0, len - 1);
+      return;
+    }
+    if (len >= 16) { return; } //最长16位
+    if('0123456789'.indexOf(key) !== -1) {
+      if(this.output === '' || this.output === '0') { // output为空或0时直接赋值
+        this.output = key;
+        return
+      }
+      //小数点后两位时直接返回
+      if(this.output.indexOf('.') > 0 && this.output.split('.')[1].length === 2) { return; }
+    }
+    //如果存在'.'直接返回
+    if(key === '.' && this.output.indexOf('.') > 0) { return; }
+    if(key === '.' && this.output === '') { //output为空，'.'前加零
+      this.output = '0' + key;
+      return;
+    }
+    
+    this.output += key;
+    
+  }
+}
 </script>
 
 <style lang="scss" scoped>
-@import '~@/assets/style/helper.scss';
+@import "~@/assets/style/helper.scss";
 
 .numberPad {
   > .output {
@@ -43,7 +75,7 @@
   }
   > .buttons {
     display: grid;
-    grid-template-columns: repeat(5, 20%);
+    grid-template-columns: repeat(4, 25%);
     grid-template-rows: repeat(4, 64px);
     > button {
       background: transparent;
@@ -58,26 +90,30 @@
       &:nth-child(1) {
         background: $bg;
       }
-      &:nth-child(2), &:nth-child(6) {
+      &:nth-child(2),
+      &:nth-child(5) {
         background: darken($bg, 4%);
       }
-      &:nth-child(3), &:nth-child(7), &:nth-child(11) {
-        background: darken($bg, 4*2%);
+      &:nth-child(3),
+      &:nth-child(6),
+      &:nth-child(9) {
+        background: darken($bg, 4 * 2%);
       }
-      &:nth-child(4), &:nth-child(8), &:nth-child(12) {
-        background: darken($bg, 4*3%);
+      &:nth-child(4),
+      &:nth-child(7),
+      &:nth-child(10) {
+        background: darken($bg, 4 * 3%);
       }
-      &:nth-child(5), &:nth-child(9), &:nth-child(13), &:nth-child(17), &:nth-child(16) {
-        background: darken($bg, 4*4%);
+      &:nth-child(8),
+      &:nth-child(11),
+      &:nth-child(13) {
+        background: darken($bg, 4 * 4%);
       }
-      &:nth-child(10), &:nth-child(14) {
-        background: darken($bg, 4*5%);
+      &:nth-child(14) {
+        background: darken($bg, 4 * 5%);
       }
-      &:nth-child(18) {
-        background: darken($bg, 4*6%);
-      }
-      &:nth-child(15) {
-        background: darken($bg, 4*7%);
+      &:nth-child(12) {
+        background: darken($bg, 4 * 6%);
       }
     }
   }

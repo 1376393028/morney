@@ -9,34 +9,16 @@
 
 <script lang="ts">
 import Vue from "vue";
-import { Component } from "vue-property-decorator";
-@Component({
-  props: {},
-})
+import { Component, Prop } from "vue-property-decorator";
+@Component
 export default class Types extends Vue {
   type = "-"; // '-'表示支出, '+'表示收入
+  // @Prop(Number) propA: number | undefined;  // Number运行时类型检测（传参）, number | undefined 编译时类型检测
   selectType(type: string) {
-    if (type === "-" || type === "+") {
-      this.type = type;
-    }
+    if (type !== "-" && type !== "+") return;
+    this.type = type;
   }
 }
-
-// export default {
-//     name: 'Types',
-//     data() {
-//       return {
-//         type: '-', // '-'表示支出, '+'表示收入
-//       }
-//     },
-//     methods: {
-//       selectType(type) {
-//         if(type === '-' || type === '+' ) {
-//           this.type = type
-//         }
-//       }
-//     }
-// }
 </script>
 
 <style lang="scss" scoped>
