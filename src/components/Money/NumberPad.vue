@@ -22,14 +22,18 @@
 
 <script lang="ts">
 import Vue from "vue";
-import { Component } from "vue-property-decorator";
+import { Component, Prop } from "vue-property-decorator";
 @Component
 export default class NumberPad extends Vue {
-  output = "";
+  @Prop(Number) readonly value!: number;
+  output = this.value.toString();
   enterKey(e: MouseEvent) {
     let target = e.target as HTMLButtonElement;
     let key = target.textContent as string;
-    if(key === 'ok') { return; }
+    if(key === 'ok') { 
+      this.ok();
+      return;
+    }
     if (key === "清空") {
       this.output = "";
       return;
@@ -58,6 +62,18 @@ export default class NumberPad extends Vue {
     
     this.output += key;
     
+  }
+  ok() {
+    if(this.output === '' || this.output == '0') {
+      console.log(this.$message)
+      this.$message({
+          message: '请输入金额',
+          type: 'error',
+          duration: 1500
+        });
+      return;  
+    }
+    this.$emit('update:value', parseFloat(this.output))
   }
 }
 </script>
