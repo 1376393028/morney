@@ -65,7 +65,6 @@ export default class NumberPad extends Vue {
   }
   ok() {
     if(this.output === '' || this.output == '0') {
-      console.log(this.$message)
       this.$message({
           message: '请输入金额',
           type: 'error',
@@ -73,7 +72,9 @@ export default class NumberPad extends Vue {
         });
       return;  
     }
-    this.$emit('update:value', parseFloat(this.output))
+    this.$emit('update:value', parseFloat(this.output));
+    this.$emit('submit');
+    this.output = '0';
   }
 }
 </script>
