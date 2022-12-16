@@ -21,7 +21,7 @@ const routes = [
     component: () => import('@/views/Statistics.vue')
   },
   {
-    path: '/labels/edit',
+    path: '/labels/edit/:id',
     component: () => import('@/views/EditLabel.vue')
   },
   {
