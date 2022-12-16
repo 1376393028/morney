@@ -1,8 +1,12 @@
 const localStorageName = 'tagList';
+type Tag = {
+    id: string,
+    name: string
+}
 type tagListModule = {
-    data: string[]
-    fetch: () => string[]
-    create: (name: string) => boolean
+    data: Tag[]
+    fetch: () => Tag[]
+    create: (name: string) => 'success' | 'duplicated' // success成功 duplicated 表示name重复
     save: () => void
 }
 const tagListModule: tagListModule = {
@@ -15,12 +19,13 @@ const tagListModule: tagListModule = {
         localStorage.setItem(localStorageName, JSON.stringify(this.data));
     },
     create(name) {
-        if(this.data.indexOf(name) >= 0) {
-            return false;
+        const names = this.data.map((item) => item.name)
+        if(names.indexOf(name) >= 0) {
+            return 'duplicated';
          }
-        this.data.push(name);
+        this.data.push({id: name, name});
         this.save();
-        return true;
+        return 'success';
     }
 }
 

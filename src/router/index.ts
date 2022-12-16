@@ -21,6 +21,10 @@ const routes = [
     component: () => import('@/views/Statistics.vue')
   },
   {
+    path: '/labels/edit',
+    component: () => import('@/views/EditLabel.vue')
+  },
+  {
     path: '*',
     component: () => import('@/views/NotFound.vue') 
   }
