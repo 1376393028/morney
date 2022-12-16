@@ -17,18 +17,11 @@
   import NumberPadVue from '@/components/Money/NumberPad.vue';
   import Vue from 'vue';
   import { Component, Watch } from 'vue-property-decorator';
-  import module  from '@/module';
+  import recordListModule  from '@/modules/recordListModule';
+  import tagListModule  from '@/modules/tagListModule';
 
-  const version = localStorage.getItem('version') || '0';
-  const recordList = module.fetch();
-  if(version === '0.0.1') {
-    //数据库升级，数据迁移
-    recordList.forEach(record => {
-      record.createdATt = new Date(2022, 0, 1);
-    })
-    module.save(recordList);
-  }
-  localStorage.setItem('version', '0.0.2');
+  const recordList = recordListModule.fetch();
+  const tagList = tagListModule.fetch();
 
   
 
@@ -36,7 +29,7 @@
     components: { Layout, Tags, Remarks, Types, NumberPadVue }
   })
   export default class Money extends Vue {
-    tags = ['衣','食','住','行'];
+    tags = tagList;
     recordList = recordList;
     record: RecordItem = {
       tags: [],
@@ -48,13 +41,13 @@
       this.record.amount = parseFloat(value);
     }
     saveRecord() {
-      const record2: RecordItem = module.clone(this.record);
+      const record2: RecordItem = recordListModule.clone(this.record);
       record2.createdATt = new Date();
       this.recordList.push(record2);
     }
     @Watch('recordList')
     onRecordChange() {
-      module.save(this.recordList);
+      recordListModule.save(this.recordList);
     }
   };
 </script>

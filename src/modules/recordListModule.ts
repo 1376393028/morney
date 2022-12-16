@@ -1,5 +1,5 @@
 const localStorageName = 'recordList';
-const module = {
+const recordListModule = {
     fetch() {
         return JSON.parse(localStorage.getItem(localStorageName) || '[]') as RecordItem[];
     },
@@ -11,4 +11,4 @@ const module = {
     }
 }
 
-export default  module; 
+export default  recordListModule; 

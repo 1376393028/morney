@@ -2,35 +2,49 @@
   <div>
     <Layout>
       <ol class="tags">
-        <li>
-          <span>衣</span>
-          <Icon name="right"></Icon>
-        </li>
-        <li>
-          <span>食</span>
-          <Icon name="right"></Icon>
-        </li>
-        <li>
-          <span>住</span>
-          <Icon name="right"></Icon>
-        </li>
-        <li>
-          <span>行</span>
+        <li v-for="tag in tags" :key="tag">
+          <span>{{tag}}</span>
           <Icon name="right"></Icon>
         </li>
       </ol>
       <div class="createTag-wrapper">
-        <button class="createTag">新建标签</button>
+        <button class="createTag" @click="createTag">新建标签</button>
       </div>
     </Layout>
   </div>
 </template>
 
 <script lang="ts">
-import Layout from '@/components/Layout.vue';
-  export default {
-  components: { Layout },
-    name: 'Labels',
+  import Layout from '@/components/Layout.vue';
+  import Vue from 'vue';
+  import { Component } from 'vue-property-decorator';
+  import tagListModule from '@/modules/tagListModule';
+  tagListModule.fetch();
+  @Component({
+    components: { Layout }
+  })
+  export default class Labels extends Vue {
+    tags = tagListModule.data;
+    createTag() {
+      const name = prompt('请输入标签名');
+      if(name) {
+        let result = tagListModule.create(name);
+        if(result) {
+          this.$message({
+            type: 'success',
+            message: '创建成功',
+            duration: 1000
+          })
+        } else {
+          this.$message({
+            type: 'error',
+            message: '创建的标签已存在',
+            duration: 1000
+          })
+        }
+      }
+
+    }
   };
 </script>
 
