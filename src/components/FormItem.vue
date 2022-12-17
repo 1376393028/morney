@@ -2,7 +2,7 @@
   <div>
     <label class="remarks">
       <span class="name">{{fieldName}}</span>
-      <input v-model="value" type="text" :placeholder="placeholder" />
+      <input :value="value" @input="onValueChanged($event.target.value)" type="text" :placeholder="placeholder" />
     </label>
   </div>
 </template>
@@ -12,10 +12,9 @@
   import { Component, Watch, Prop } from "vue-property-decorator";
   @Component
   export default class Remarks extends Vue {
-    value = '';
+    @Prop({default:''}) value!: string;
     @Prop({required: true}) readonly fieldName!: string;
     @Prop() readonly placeholder?: string;
-    @Watch('value')
     onValueChanged(value: string) {
       this.$emit('update:value', value);
     }
