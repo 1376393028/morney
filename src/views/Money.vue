@@ -2,7 +2,9 @@
   <div>
     <Layout class-prefix="layout">
       <Tags :data-source.sync="tags" :value.sync="record.tags" />
-      <FormItem field-name="备注" placeholder="请输入备注" :value.sync="record.remarks" />
+      <div class="form-wrapper">
+        <FormItem field-name="备注" placeholder="请输入备注" :value.sync="record.remarks" />
+      </div>
       <Types :value.sync="record.type" />
       <NumberPadVue :value.sync="record.amount" @submit="saveRecord" />
     </Layout>
@@ -56,6 +58,10 @@
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
+}
+.form-wrapper {
+  background: #f5f5f5;
+  padding: 12px 0;
 }
 </style>
 
