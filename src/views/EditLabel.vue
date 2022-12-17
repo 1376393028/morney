@@ -1,14 +1,22 @@
 <template>
-    <Layout></Layout>
+    <Layout>
+        <div>
+            <Icon name="left" />
+            <span>编辑标签</span>
+        </div>
+        <Remarks field-name="标签名" placeholder="请输入标签名" />
+    </Layout>
 </template>
 <script lang="ts">
     import Vue from "vue";
     import { Component } from "vue-property-decorator";
     import Layout from "@/components/Layout.vue";
     import tagListModule from "@/modules/tagListModule";
+    import Remarks from "@/components/Remarks.vue";
     @Component({
         components: {
-            Layout
+            Layout,
+            Remarks
         }
     })
     export default class EditLabel extends Vue {
