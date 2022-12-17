@@ -25,7 +25,7 @@ const tagListModule: tagListModule = {
         if(names.indexOf(name) >= 0) {
             return 'duplicated';
          }
-        this.data.push({id: name, name});
+        this.data.push({id: Date.now().toString(), name});
         this.save();
         return 'success';
     },
