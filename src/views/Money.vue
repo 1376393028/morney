@@ -1,7 +1,7 @@
 <template>
   <div>
     <Layout class-prefix="layout">
-      <Tags :data-source.sync="tags" :value.sync="record.tags" />
+      <Tags :data-source="tags" :value.sync="record.tags" />
       <div class="form-wrapper">
         <FormItem field-name="备注" placeholder="请输入备注" :value.sync="record.remarks" />
       </div>
@@ -19,14 +19,15 @@
   import NumberPadVue from '@/components/Money/NumberPad.vue';
   import Vue from 'vue';
   import { Component } from 'vue-property-decorator';
+  import store from '@/store/index2';
 
 
   @Component({
     components: { Layout, Tags, FormItem, Types, NumberPadVue }
   })
   export default class Money extends Vue {
-    tags = window.tagList;
-    recordList = window.recordList;
+    tags = store.tagList;
+    recordList = store.recordList;
     record: RecordItem = {
       tags: [],
       remarks: '',
@@ -37,7 +38,7 @@
       this.record.amount = parseFloat(value);
     }
     saveRecord() {
-      window.createRecord(this.record);
+      store.createRecord(this.record);
     }
   };
 </script>

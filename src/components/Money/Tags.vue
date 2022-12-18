@@ -10,14 +10,20 @@
 </template>
 
 <script lang="ts">
-  import Vue from 'vue';
+  import store from '@/store/index2';
+import Vue from 'vue';
   import { Component, Prop } from 'vue-property-decorator';
   @Component
   export default class Tags extends Vue {
-    @Prop(Array) readonly dataSource: string[] | undefined;
-    selectedTags: string[] = [];
-    toggle(tag: string) {
-      let index = this.selectedTags.indexOf(tag);
+    @Prop(Array) readonly dataSource: Tag[] | undefined;
+    selectedTags: Tag[] = [];
+    toggle(tag: Tag) {
+      let index = -1;
+      this.selectedTags.forEach((item, ind) => {
+        if(item.id === tag.id) {
+          index = ind
+        }
+      });
       if(index >= 0) {
         this.selectedTags.splice(index, 1);
       }else {
@@ -27,12 +33,12 @@
     };
     create() {
       let name = prompt('请输入标签名');
-      if(name === '') {
-        alert('标签名不能为空');
-      } else {
+      if(name) {
         if(this.dataSource) {
-          this.$emit('update:dataSource', [...this.dataSource, name]);
+          store.createTag(name)
         }
+      } else {
+        alert('标签名不能为空');
       }
     }
   }
