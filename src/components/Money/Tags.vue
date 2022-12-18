@@ -2,7 +2,7 @@
   <div class="tags">
     <ul class="current">
       <li
-        v-for="tag in tags"
+        v-for="tag in tagList"
         :key="tag.id"
         @click="toggle(tag)"
         :class="{ selected: selectedTags.indexOf(tag) >= 0 }"
@@ -18,11 +18,11 @@
 
 <script lang="ts">
 import Vue from "vue";
-import { Component, Prop } from "vue-property-decorator";
+import { Component } from "vue-property-decorator";
 @Component({
   computed: {
-    tags() {
-      return [];
+    tagList() {
+      return this.$store.state.tagList;
     }
   }
 })
@@ -45,10 +45,13 @@ export default class Tags extends Vue {
   create() {
     let name = prompt("请输入标签名");
     if (name) {
-      // store.createTag(name);
+      this.$store.commit('createTag', name);
     } else {
       alert("标签名不能为空");
     }
+  }
+  created() {
+    this.$store.commit('fetchTags');
   }
 }
 </script>
