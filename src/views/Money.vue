@@ -19,23 +19,27 @@
   import NumberPadVue from '@/components/Money/NumberPad.vue';
   import Vue from 'vue';
   import { Component } from 'vue-property-decorator';
-  import store from '@/store/index2';
-
 
   @Component({
-    components: { Layout, Tags, FormItem, Types, NumberPadVue }
+    components: { Layout, Tags, FormItem, Types, NumberPadVue },
+    computed: {
+      recordList() {
+        return this.$store.state.recordList;
+      }
+    }
   })
   export default class Money extends Vue {
-    tags = store.tagList;
-    recordList = store.recordList;
     record: RecordItem = {
       tags: [],
       remarks: '',
       type: '-',
       amount: 0
     };
+    created() {
+      this.$store.commit('fetchRecords');
+    }
     saveRecord() {
-      store.createRecord(this.record);
+      this.$store.commit('createRecord', this.record);
     }
   };
 </script>

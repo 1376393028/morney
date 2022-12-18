@@ -18,7 +18,6 @@ import { Component } from "vue-property-decorator";
 import Layout from "@/components/Layout.vue";
 import FormItem from "@/components/FormItem.vue";
 import Button from "@/components/Button.vue";
-import store from "@/store/index2";
 @Component({
   components: {
     Layout,
@@ -27,7 +26,7 @@ import store from "@/store/index2";
   },
 })
 export default class EditLabel extends Vue {
-  tag = store.findTag(this.$route.params.id);
+  tag = [];
   created() {
     if (!this.tag) {
       this.$router.replace("/404");
@@ -35,15 +34,15 @@ export default class EditLabel extends Vue {
   }
   remove() {
     if(this.tag) {
-        let result = store.removeTag(this.tag.id);
-        if(result) {
-            this.$router.back();
-        }
+        // let result = store.removeTag(this.tag.id);
+        // if(result) {
+        //     this.$router.back();
+        // }
     }
   }
   update(name: string) {
     if(this.tag) {
-        store.updateTag(this.tag.id, name);
+        // store.updateTag(this.tag.id, name);
     }
   }
   back() {

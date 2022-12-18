@@ -1,45 +1,56 @@
 <template>
-    <div class="tags">
-        <ul class="current">
-          <li v-for="tag in tags" :key="tag.id" @click="toggle(tag)" :class="{selected: selectedTags.indexOf(tag) >= 0}">{{tag.name}}</li>
-        </ul>
-        <div class="new">
-          <button @click="create">新增标签</button>
-        </div>
-      </div>
+  <div class="tags">
+    <ul class="current">
+      <li
+        v-for="tag in tags"
+        :key="tag.id"
+        @click="toggle(tag)"
+        :class="{ selected: selectedTags.indexOf(tag) >= 0 }"
+      >
+        {{ tag.name }}
+      </li>
+    </ul>
+    <div class="new">
+      <button @click="create">新增标签</button>
+    </div>
+  </div>
 </template>
 
 <script lang="ts">
-  import store from '@/store/index2';
-import Vue from 'vue';
-  import { Component, Prop } from 'vue-property-decorator';
-  @Component
-  export default class Tags extends Vue {
-    tags = store.tagList;
-    selectedTags: Tag[] = [];
-    toggle(tag: Tag) {
-      let index = -1;
-      this.selectedTags.forEach((item, ind) => {
-        if(item.id === tag.id) {
-          index = ind
-        }
-      });
-      if(index >= 0) {
-        this.selectedTags.splice(index, 1);
-      }else {
-        this.selectedTags.push(tag);
-      }
-      this.$emit('update:value', this.selectedTags);
-    };
-    create() {
-      let name = prompt('请输入标签名');
-      if(name) {
-        store.createTag(name);
-      } else {
-        alert('标签名不能为空');
-      }
+import Vue from "vue";
+import { Component, Prop } from "vue-property-decorator";
+@Component({
+  computed: {
+    tags() {
+      return [];
     }
   }
+})
+export default class Tags extends Vue {
+  selectedTags: Tag[] = [];
+  toggle(tag: Tag) {
+    let index = -1;
+    this.selectedTags.forEach((item, ind) => {
+      if (item.id === tag.id) {
+        index = ind;
+      }
+    });
+    if (index >= 0) {
+      this.selectedTags.splice(index, 1);
+    } else {
+      this.selectedTags.push(tag);
+    }
+    this.$emit("update:value", this.selectedTags);
+  }
+  create() {
+    let name = prompt("请输入标签名");
+    if (name) {
+      // store.createTag(name);
+    } else {
+      alert("标签名不能为空");
+    }
+  }
+}
 </script>
 
 <style lang="scss" scoped>
