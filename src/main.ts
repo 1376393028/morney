@@ -15,8 +15,25 @@ Vue.component('Icon', Icon);
 Vue.config.productionTip = false;
 window.tagList = tagListModule.fetch();
 
-new Vue({
+
+let vm = new Vue({
   router,
   store,
   render: h => h(App)
 }).$mount('#app')
+window.createTag = (name) => {
+  let result = tagListModule.create(name);
+  if (result === 'success') {
+    vm.$message({
+      type: 'success',
+      message: '创建成功',
+      duration: 1000
+    })
+  } else if (result === 'duplicated') {
+    vm.$message({
+      type: 'error',
+      message: '创建的标签已存在',
+      duration: 1000
+    })
+  }
+}

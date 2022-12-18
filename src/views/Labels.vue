@@ -28,20 +28,7 @@
     createTag() {
       const name = prompt('请输入标签名');
       if(name) {
-        let result = tagListModule.create(name);
-        if(result === 'success') {
-          this.$message({
-            type: 'success',
-            message: '创建成功',
-            duration: 1000
-          })
-        } else if(result === 'duplicated') {
-          this.$message({
-            type: 'error',
-            message: '创建的标签已存在',
-            duration: 1000
-          })
-        }
+        window.createTag(name);
       }
 
     }
