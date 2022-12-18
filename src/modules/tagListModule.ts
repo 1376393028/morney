@@ -18,7 +18,7 @@ const tagListModule: tagListModule = {
         return 'success';
     },
     update(id, name) {
-        const tag = this.data.filter(item => item.id === id)[0];
+        const tag = window.findTag(id);
         if(tag) {
             const names = this.data.map((item) => item.name)
             if(names.indexOf(name) >= 0) {

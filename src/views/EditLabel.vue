@@ -16,7 +16,6 @@
 import Vue from "vue";
 import { Component } from "vue-property-decorator";
 import Layout from "@/components/Layout.vue";
-import tagListModule from "@/modules/tagListModule";
 import FormItem from "@/components/FormItem.vue";
 import Button from "@/components/Button.vue";
 @Component({
@@ -27,21 +26,15 @@ import Button from "@/components/Button.vue";
   },
 })
 export default class EditLabel extends Vue {
-  tag?: {id: string, name: string };
+  tag = window.findTag(this.$route.params.id);
   created() {
-    const id = this.$route.params.id;
-    tagListModule.fetch();
-    const tags = tagListModule.data;
-    const tag = tags.filter((t) => t.id === id)[0];
-    if (tag) {
-        this.tag = tag;
-    } else {
+    if (!this.tag) {
       this.$router.replace("/404");
     }
   }
   remove() {
     if(this.tag) {
-        let result = tagListModule.remove(this.tag.id);
+        let result = window.removeTag(this.tag.id);
         if(result) {
             this.$router.back();
         }
@@ -49,7 +42,7 @@ export default class EditLabel extends Vue {
   }
   update(name: string) {
     if(this.tag) {
-        tagListModule.update(this.tag.id, name);
+        window.updateTag(this.tag.id, name);
     }
   }
   back() {

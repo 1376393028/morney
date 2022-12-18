@@ -37,3 +37,16 @@ window.createTag = (name) => {
     })
   }
 }
+
+window.removeTag = (id) => {
+  let result = tagListModule.remove(id);
+  return result;
+}
+
+window.updateTag = (id, name) => {
+  return tagListModule.update(id, name);
+}
+
+window.findTag = (id) => {
+  return window.tagList.filter(item => item.id === id)[0]
+}
