@@ -7,11 +7,13 @@ import Nav from '@/components/Nav.vue';
 import Layout from '@/components/Layout.vue';
 import Icon from "@/components/Icon.vue";
 import '@/plugins/element';
+import tagListModule from './modules/tagListModule';
 
 Vue.component('Nav', Nav);
 Vue.component('Layout', Layout);
 Vue.component('Icon', Icon);
 Vue.config.productionTip = false;
+window.tagList = tagListModule.fetch();
 
 new Vue({
   router,

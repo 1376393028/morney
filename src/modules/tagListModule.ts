@@ -1,16 +1,4 @@
 const localStorageName = 'tagList';
-type Tag = {
-    id: string,
-    name: string
-}
-type tagListModule = {
-    data: Tag[]
-    fetch: () => Tag[]
-    create: (name: string) => 'success' | 'duplicated' // success成功 duplicated 表示name重复
-    save: () => void
-     update: (id: string, name: string) => 'success' | 'duplicated' | 'not fount' 
-    remove: (id: string) => boolean
-}
 const tagListModule: tagListModule = {
     data: [],
     fetch() {
