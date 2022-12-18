@@ -1,7 +1,7 @@
 <template>
   <div>
     <Layout class-prefix="layout">
-      <Tags :data-source="tags" :value.sync="record.tags" />
+      <Tags :value.sync="record.tags" />
       <div class="form-wrapper">
         <FormItem field-name="备注" placeholder="请输入备注" :value.sync="record.remarks" />
       </div>
@@ -34,9 +34,6 @@
       type: '-',
       amount: 0
     };
-    onUpdateAmount(value: string) {
-      this.record.amount = parseFloat(value);
-    }
     saveRecord() {
       store.createRecord(this.record);
     }

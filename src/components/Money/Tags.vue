@@ -1,7 +1,7 @@
 <template>
     <div class="tags">
         <ul class="current">
-          <li v-for="tag in dataSource" :key="tag.id" @click="toggle(tag)" :class="{selected: selectedTags.indexOf(tag) >= 0}">{{tag.name}}</li>
+          <li v-for="tag in tags" :key="tag.id" @click="toggle(tag)" :class="{selected: selectedTags.indexOf(tag) >= 0}">{{tag.name}}</li>
         </ul>
         <div class="new">
           <button @click="create">新增标签</button>
@@ -15,7 +15,7 @@ import Vue from 'vue';
   import { Component, Prop } from 'vue-property-decorator';
   @Component
   export default class Tags extends Vue {
-    @Prop(Array) readonly dataSource: Tag[] | undefined;
+    tags = store.tagList;
     selectedTags: Tag[] = [];
     toggle(tag: Tag) {
       let index = -1;
@@ -34,9 +34,7 @@ import Vue from 'vue';
     create() {
       let name = prompt('请输入标签名');
       if(name) {
-        if(this.dataSource) {
-          store.createTag(name)
-        }
+        store.createTag(name);
       } else {
         alert('标签名不能为空');
       }
