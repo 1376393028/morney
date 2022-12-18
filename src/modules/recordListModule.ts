@@ -1,3 +1,4 @@
+import clone from "@/utils/clone";
 const localStorageName = 'recordList';
 const recordListModule = {
     data: [] as RecordItem[],
@@ -10,6 +11,11 @@ const recordListModule = {
     },
     clone(data: RecordItem[]|RecordItem) {
         return JSON.parse(JSON.stringify(data));
+    },
+    create(record: RecordItem) {
+        const record2: RecordItem = clone(record);
+        record2.createdATt = new Date();
+        this.data.push(record2);
     }
 }
 

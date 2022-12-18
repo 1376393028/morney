@@ -43,13 +43,11 @@
       this.record.amount = parseFloat(value);
     }
     saveRecord() {
-      const record2: RecordItem = recordListModule.clone(this.record);
-      record2.createdATt = new Date();
-      this.recordList.push(record2);
+      recordListModule.create(this.record);
     }
     @Watch('recordList')
     onRecordChange() {
-      recordListModule.save(this.recordList);
+      recordListModule.save();
     }
   };
 </script>
