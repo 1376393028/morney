@@ -8,12 +8,12 @@ import Layout from '@/components/Layout.vue';
 import Icon from "@/components/Icon.vue";
 import '@/plugins/element';
 import tagListModule from './modules/tagListModule';
+import recordListModule from './modules/recordListModule';
 
 Vue.component('Nav', Nav);
 Vue.component('Layout', Layout);
 Vue.component('Icon', Icon);
 Vue.config.productionTip = false;
-window.tagList = tagListModule.fetch();
 
 
 let vm = new Vue({
@@ -37,6 +37,13 @@ window.createTag = (name) => {
     })
   }
 }
+
+// record store
+window.recordList = recordListModule.fetch();
+window.createRecord = (record) =>   recordListModule.create(record);
+
+// tag store
+window.tagList = tagListModule.fetch();
 
 window.removeTag = (id) => {
   let result = tagListModule.remove(id);

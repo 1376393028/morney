@@ -16,6 +16,7 @@ const recordListModule = {
         const record2: RecordItem = clone(record);
         record2.createdATt = new Date();
         this.data.push(record2);
+        this.save()
     }
 }
 
