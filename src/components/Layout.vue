@@ -8,23 +8,22 @@
 </template>
 
 <script lang="ts">
-  export default {
-    props: ['classPrefix'],
-    name: 'Layout',
+import Vue from 'vue';
+import { Component, Prop } from 'vue-property-decorator';
+@Component
+  export default class Layout extends Vue {
+    @Prop(String) classPrefix?: string;
   };
 </script>
 
 <style lang="scss" scoped>
 .layout-wrapper {
-  // border: 1px solid pink;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
 }
 
 .content {
-  overflow: auto;
-  // border: 1px solid blue;
   flex-grow: 1;
 }
 </style>
