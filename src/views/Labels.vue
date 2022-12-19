@@ -22,17 +22,15 @@
 <script lang="ts">
 import Layout from "@/components/Layout.vue";
 import Vue from "vue";
-import { Component } from "vue-property-decorator";
+import {Component} from "vue-property-decorator";
 import Button from "@/components/Button.vue";
 @Component({
-  components: { Layout, Button },
-  computed: {
-    tags() {
-      return this.$store.state.tagList;
-    },
-  },
+  components: { Layout, Button }
 })
 export default class Labels extends Vue {
+  get tags() {
+    return this.$store.state.tagList;
+  }
   createTag() {
     const name = prompt("请输入标签名");
     if (name) {
