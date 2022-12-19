@@ -8,25 +8,21 @@ const localStorageTagName = 'tagList';
 
 Vue.use(Vuex);
 
-type rootState = {
-  recordList: RecordItem[]
-  tagList: Tag[]
-  currentTag?: Tag
-}
+
 
 const store = new Vuex.Store({
   state: {
     recordList: [],
     tagList: [],
     currentTag: undefined
-  } as rootState,
+  } as RootState,
   mutations: {
     fetchRecords(state) {
       state.recordList = JSON.parse(localStorage.getItem(localStorageRecordName) || '[]') as RecordItem[];
     },
     createRecord(state, record) {
       const record2: RecordItem = clone(record);
-      record2.createdATt = new Date();
+      record2.createdATt = new Date().toISOString();
       state.recordList.push(record2);
       store.commit('saveRecord');
     },

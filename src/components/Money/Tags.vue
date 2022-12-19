@@ -36,7 +36,8 @@ export default class Tags extends mixins(TagHelper) {
     } else {
       this.selectedTags.push(tag);
     }
-    this.$emit("update:value", this.selectedTags);
+    let tags = this.selectedTags.map(tag => tag.name);
+    this.$emit("update:value", tags);
   }
   created() {
     this.$store.commit('fetchTags');
