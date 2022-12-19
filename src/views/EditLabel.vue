@@ -14,7 +14,7 @@
 </template>
 <script lang="ts">
 import Vue from "vue";
-import Component from "vue-class-component";
+import {Component} from "vue-property-decorator";
 import Layout from "@/components/Layout.vue";
 import FormItem from "@/components/FormItem.vue";
 import Button from "@/components/Button.vue";
@@ -30,22 +30,18 @@ export default class EditLabel extends Vue {
     return this.$store.state.currentTag;
   };
   created() {
+    this.$store.commit('fetchTags');
     this.$store.commit('setCurrentTag', this.$route.params.id);
     if (!this.tag) {
       this.$router.replace("/404");
     }
   }
   remove() {
-    if(this.tag) {
-        // let result = store.removeTag(this.tag.id);
-        // if(result) {
-        //     this.$router.back();
-        // }
-    }
+    if(this.tag) this.$store.commit('removeTag', this.tag.id);
   }
   update(name: string) {
     if(this.tag) {
-        // store.updateTag(this.tag.id, name);
+        this.$store.commit('updateTag', name);
     }
   }
   back() {
