@@ -7,11 +7,18 @@ const localStorageTagName = 'tagList';
 
 Vue.use(Vuex);
 
+type rootState ={
+  recordList: RecordItem[]
+  tagList: Tag[]
+  currentTag?: Tag
+}
+
 const store = new Vuex.Store({
   state: {
-    recordList: [] as RecordItem[],
-    tagList: [] as Tag[]
-  },
+    recordList: [],
+    tagList: [],
+    currentTag: undefined
+  } as rootState,
   mutations: {
     fetchRecords(state) {
       state.recordList = JSON.parse(localStorage.getItem(localStorageRecordName) || '[]') as RecordItem[];
@@ -42,6 +49,9 @@ const store = new Vuex.Store({
     saveTags(state) {
       localStorage.setItem(localStorageTagName, JSON.stringify(state.tagList));
     },
+    setCurrentTag(state, id) {
+      state.currentTag = state.tagList.filter(item => item.id === id)[0]
+    }
   }
 })
 

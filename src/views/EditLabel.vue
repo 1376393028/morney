@@ -14,7 +14,7 @@
 </template>
 <script lang="ts">
 import Vue from "vue";
-import { Component } from "vue-property-decorator";
+import Component from "vue-class-component";
 import Layout from "@/components/Layout.vue";
 import FormItem from "@/components/FormItem.vue";
 import Button from "@/components/Button.vue";
@@ -26,8 +26,11 @@ import Button from "@/components/Button.vue";
   },
 })
 export default class EditLabel extends Vue {
-  tag = [];
+  get tag() {
+    return this.$store.state.currentTag;
+  };
   created() {
+    this.$store.commit('setCurrentTag', this.$route.params.id);
     if (!this.tag) {
       this.$router.replace("/404");
     }
