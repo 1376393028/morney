@@ -2,8 +2,13 @@
   <div>
     <Layout>
       <div class="tags">
-        <router-link class="link" :to="`/labels/edit/${tag.id}`" v-for="tag in tags" :key="tag.id">
-          <span>{{tag.name}}</span>
+        <router-link
+          class="link"
+          :to="`/labels/edit/${tag.id}`"
+          v-for="tag in tags"
+          :key="tag.id"
+        >
+          <span>{{ tag.name }}</span>
           <Icon name="right"></Icon>
         </router-link>
       </div>
@@ -15,23 +20,29 @@
 </template>
 
 <script lang="ts">
-  import Layout from '@/components/Layout.vue';
-  import Vue from 'vue';
-  import { Component } from 'vue-property-decorator';
-  import Button from '@/components/Button.vue';
-  @Component({
-    components: { Layout, Button }
-  })
-  export default class Labels extends Vue {
-    tags = [];
-    createTag() {
-      const name = prompt('请输入标签名');
-      if(name) {
-        // store.createTag(name);
-      }
-
+import Layout from "@/components/Layout.vue";
+import Vue from "vue";
+import { Component } from "vue-property-decorator";
+import Button from "@/components/Button.vue";
+@Component({
+  components: { Layout, Button },
+  computed: {
+    tags() {
+      return this.$store.state.tagList;
+    },
+  },
+})
+export default class Labels extends Vue {
+  createTag() {
+    const name = prompt("请输入标签名");
+    if (name) {
+      this.$store.commit('createTag', name);
     }
-  };
+  }
+  created() {
+    this.$store.commit("fetchTags");
+  }
+}
 </script>
 
 <style lang="scss" scoped>
@@ -54,10 +65,10 @@
   }
 }
 .createTag-wrapper {
-    text-align: center;
-    padding: 16px;
-    margin-top: 28px;
-  }
+  text-align: center;
+  padding: 16px;
+  margin-top: 28px;
+}
 </style>
 
 
