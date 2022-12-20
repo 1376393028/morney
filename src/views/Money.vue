@@ -1,12 +1,12 @@
 <template>
   <div>
     <Layout class-prefix="layout">
-      <Tags :value.sync="record.tags" />
+      <Tags ref="tags" :value.sync="record.tags" />
       <div class="form-wrapper">
         <FormItem field-name="备注" placeholder="请输入备注" :value.sync="record.remarks" />
       </div>
       <Tabss :data-source="typeList" :value.sync="record.type" />
-      <NumberPadVue :value.sync="record.amount" @submit="saveRecord" />
+      <NumberPadVue ref="numberPadVue" :value.sync="record.amount" @submit="saveRecord" />
     </Layout>
   </div>
 </template>
@@ -41,7 +41,21 @@
       this.$store.commit('fetchRecords');
     }
     saveRecord() {
+      if(this.record.tags.length === 0) {
+        alert('请至少选择一个标签');
+        return;
+      }
+      if(this.record.tags.length > 3) {
+        alert('最多选择三个标签');
+        return;
+      }
       this.$store.commit('createRecord', this.record);
+      alert('已保存');
+      this.record.remarks = '';
+      this.record.amount = 0;
+      this.record.tags = [];
+      (this.$refs.numberPadVue as Vue & {output: string}).output = '0';
+      (this.$refs.tags as Vue & {selectedTags: Tag[]}).selectedTags = [];
     }
   };
 </script>
