@@ -2,13 +2,13 @@
   <div>
     <Layout>
       <Tabss classPrefix="type" :data-source="typeList" :value.sync="type" />
-      <Tabss
+      <!-- <Tabss
         classPrefix="interval"
         :data-source="intervalList"
         :value.sync="interval"
-      />
+      /> -->
       <ol>
-        <li v-for="group in result" :key="group.title">
+        <li v-for="group in groupList" :key="group.title">
           <h3 class="title">{{ beaautify(group.title) }}</h3>
           <ol>
             <li class="record" v-for="item in group.items" :key="item.createdATt">
@@ -28,37 +28,44 @@ import Vue from "vue";
 import { Component } from "vue-property-decorator";
 import Layout from "@/components/Layout.vue";
 import Tabss from "@/components/Tabss.vue";
-import INTERVALLIST from "@/constants/intervalList";
+// import INTERVALLIST from "@/constants/intervalList";
 import TYPELIST from "@/constants/typeList";
 import dayjs from 'dayjs';
+import clone from "@/utils/clone";
 
 @Component({
   components: { Layout, Tabss },
 })
 export default class Statistics extends Vue {
-  tagsString(tags: string[]) {
-    return tags.join(',') ? tags.join(',') : '无';
+  tagsString(tags: Tag[]) {
+    let list = tags.map(tag => tag.name);
+    return list.length > 0 ? list.join(',') : '';
   }
   type = "-";
-  interval = "day";
+  // interval = "day";
   typeList = TYPELIST;
-  intervalList = INTERVALLIST;
+  // intervalList = INTERVALLIST;
   created() {
     this.$store.commit("fetchRecords");
   }
   get recordList() {
     return (this.$store.state as RootState).recordList;
   }
-  get result() {
+  get groupList() {
     const { recordList } = this;
-    const hashTable: { [key: string]: { title: string; items: RecordItem[] } } =
-      {};
-    for (let i = 0; i < recordList.length; i++) {
-      const [date, time] = recordList[i].createdATt!.split("T");
-      hashTable[date] = hashTable[date] || { title: date, items: [] };
-      hashTable[date].items.push(recordList[i]);
+    if(recordList.length === 0) return;
+    const list = clone<RecordItem[]>(recordList).sort((a, b) => dayjs(b.createdATt).valueOf() - dayjs(a.createdATt).valueOf());
+    const result = [{title: dayjs(list[0].createdATt).format('YYYY-MM-DD'), items: [list[0]]}];
+    for(let i=1; i<list.length; i++) {
+      let last = result[result.length-1];
+      let currentDay = dayjs(list[i].createdATt);
+      if(currentDay.isSame(dayjs(last.title), 'day')) {
+        last.items.push(list[i]);
+      } else {
+        result.push({title: currentDay.format('YYYY-MM-DD'), items:[list[i]]});
+      }
     }
-    return hashTable;
+    return result;
   }
   beaautify(date: string) {
     const day = dayjs(date);

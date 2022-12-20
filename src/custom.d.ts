@@ -1,9 +1,9 @@
 type RecordItem = {
-  tags: string[],
+  tags: Tag[],
   remarks: string,
   type: string
   amount: number
-  createdATt?: String
+  createdATt?: string
 };
 
 type Tag = {
