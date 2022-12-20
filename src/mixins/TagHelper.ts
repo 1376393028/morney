@@ -5,6 +5,7 @@ import Component from "vue-class-component";
 export default class TagHelper extends Vue {
     createTag() {
         let name = prompt("请输入标签名");
+        if(name === null) return;
         if (name) {
           this.$store.commit('createTag', name);
         } else {
