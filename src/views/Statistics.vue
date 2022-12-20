@@ -7,7 +7,7 @@
         :data-source="intervalList"
         :value.sync="interval"
       /> -->
-      <ol>
+      <ol v-if="groupList && groupList.length > 0">
         <li v-for="group in groupList" :key="group.title">
           <h3 class="title"><span>{{ beaautify(group.title) }}</span> ￥{{ group.total }}</h3>
           <ol>
@@ -19,6 +19,7 @@
           </ol>
         </li>
       </ol>
+      <div v-else class="noResult">目前没有相关记录</div>
     </Layout>
   </div>
 </template>
@@ -38,8 +39,7 @@ import clone from "@/utils/clone";
 })
 export default class Statistics extends Vue {
   tagsString(tags: Tag[]) {
-    let list = tags.map(tag => tag.name);
-    return list.length > 0 ? list.join(',') : '无';
+    return tags.length === 0 ? '无' : tags.map(tag => tag.name).join(',');
   }
   type = "-";
   // interval = "day";
@@ -53,8 +53,8 @@ export default class Statistics extends Vue {
   }
   get groupList() {
     const { recordList } = this;
-    if(recordList.length === 0) return;
     const list = clone<RecordItem[]>(recordList).filter(r => r.type === this.type).sort((a, b) => dayjs(b.createdATt).valueOf() - dayjs(a.createdATt).valueOf());
+    if(list.length === 0) return;
     const result = [{title: dayjs(list[0].createdATt).format('YYYY-MM-DD'), total: list[0].amount, items: [list[0]]}];
     for(let i=1; i<list.length; i++) {
       let last = result[result.length-1];
@@ -87,6 +87,10 @@ export default class Statistics extends Vue {
 </script>
 
 <style lang="scss" scoped>
+.noResult {
+  text-align: center;
+  padding: 16px;
+}
 ::v-deep {
   .type-tabs-item {
     background: #c4c4c4;
