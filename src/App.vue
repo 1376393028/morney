@@ -23,4 +23,8 @@ body {
   background: #f5f5f5;
 }
 
+#app {
+  max-width: 500px;
+  margin: 0 auto;
+}
 </style>
