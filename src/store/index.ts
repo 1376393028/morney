@@ -2,6 +2,7 @@ import Vue from 'vue';
 import Vuex from 'vuex';
 import clone from "@/utils/clone";
 import router from '@/router';
+import createId from '@/utils/createId';
 const localStorageRecordName = 'recordList';
 const localStorageTagName = 'tagList';
 
@@ -32,6 +33,15 @@ const store = new Vuex.Store({
 
     fetchTags(state) {
       state.tagList = JSON.parse(localStorage.getItem(localStorageTagName) || '[]');
+      if(!state.tagList || state.tagList.length === 0) {
+        state.tagList.push(
+          { id: createId(), name: '衣' },
+          { id: createId(), name: '食' },
+          { id: createId(), name: '住' },
+          { id: createId(), name: '行' }
+        );
+        store.commit('saveTags');
+      }
     },
     createTag(state, name) {
       const names = state.tagList.map((item) => item.name)
@@ -39,7 +49,7 @@ const store = new Vuex.Store({
         alert('创建的标签已存在');
         return
       }
-      state.tagList.push({ id: Date.now().toString(), name });
+      state.tagList.push({ id: createId(), name });
       store.commit('saveTags');
       alert('创建成功');
     },
