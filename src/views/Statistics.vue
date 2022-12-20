@@ -9,7 +9,7 @@
       /> -->
       <ol>
         <li v-for="group in groupList" :key="group.title">
-          <h3 class="title">{{ beaautify(group.title) }}</h3>
+          <h3 class="title"><span>{{ beaautify(group.title) }}</span> ￥{{ group.total }}</h3>
           <ol>
             <li class="record" v-for="item in group.items" :key="item.createdATt">
               <span>{{ tagsString(item.tags) }}</span>
@@ -39,7 +39,7 @@ import clone from "@/utils/clone";
 export default class Statistics extends Vue {
   tagsString(tags: Tag[]) {
     let list = tags.map(tag => tag.name);
-    return list.length > 0 ? list.join(',') : '';
+    return list.length > 0 ? list.join(',') : '无';
   }
   type = "-";
   // interval = "day";
@@ -54,15 +54,16 @@ export default class Statistics extends Vue {
   get groupList() {
     const { recordList } = this;
     if(recordList.length === 0) return;
-    const list = clone<RecordItem[]>(recordList).sort((a, b) => dayjs(b.createdATt).valueOf() - dayjs(a.createdATt).valueOf());
-    const result = [{title: dayjs(list[0].createdATt).format('YYYY-MM-DD'), items: [list[0]]}];
+    const list = clone<RecordItem[]>(recordList).filter(r => r.type === this.type).sort((a, b) => dayjs(b.createdATt).valueOf() - dayjs(a.createdATt).valueOf());
+    const result = [{title: dayjs(list[0].createdATt).format('YYYY-MM-DD'), total: list[0].amount, items: [list[0]]}];
     for(let i=1; i<list.length; i++) {
       let last = result[result.length-1];
       let currentDay = dayjs(list[i].createdATt);
       if(currentDay.isSame(dayjs(last.title), 'day')) {
+        last.total = last.total + list[i].amount;
         last.items.push(list[i]);
       } else {
-        result.push({title: currentDay.format('YYYY-MM-DD'), items:[list[i]]});
+        result.push({title: currentDay.format('YYYY-MM-DD'), total: list[i].amount, items:[list[i]]});
       }
     }
     return result;
