@@ -1,5 +1,5 @@
 <template>
-  <div class="layout-wrapper" :class="classPrefix && `${classPrefix}-wrapper`">
+  <div class="layout-wrapper" :style="{height}" :class="classPrefix && `${classPrefix}-wrapper`">
     <div class="content" :class="classPrefix && `${classPrefix}-content`">
       <slot></slot>
     </div>
@@ -13,12 +13,13 @@ import { Component, Prop } from 'vue-property-decorator';
 @Component
   export default class Layout extends Vue {
     @Prop(String) classPrefix?: string;
+    height = `${window.innerHeight}px`;
   };
 </script>
 
 <style lang="scss" scoped>
 .layout-wrapper {
-  height: 100vh;
+  // height: 100vh;
   display: flex;
   flex-direction: column;
 }
