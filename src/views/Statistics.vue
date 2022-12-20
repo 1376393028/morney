@@ -8,8 +8,8 @@
         :value.sync="interval"
       />
       <ol>
-        <li v-for="(group, index) in result" :key="index">
-          <h3 class="title">{{ group.title }}</h3>
+        <li v-for="group in result" :key="group.title">
+          <h3 class="title">{{ beaautify(group.title) }}</h3>
           <ol>
             <li class="record" v-for="item in group.items" :key="item.createdATt">
               <span>{{ tagsString(item.tags) }}</span>
@@ -30,6 +30,7 @@ import Layout from "@/components/Layout.vue";
 import Tabss from "@/components/Tabss.vue";
 import INTERVALLIST from "@/constants/intervalList";
 import TYPELIST from "@/constants/typeList";
+import dayjs from 'dayjs';
 
 @Component({
   components: { Layout, Tabss },
@@ -58,6 +59,21 @@ export default class Statistics extends Vue {
       hashTable[date].items.push(recordList[i]);
     }
     return hashTable;
+  }
+  beaautify(date: string) {
+    const day = dayjs(date);
+    const today = dayjs();
+    if(day.isSame(today, 'day')) {
+      return '今天';
+    } else if(day.isSame(today.subtract(1, 'day'), 'day')) {
+      return '昨天';
+    } else if(day.isSame(today.subtract(2, 'day'), 'day')) {
+      return '前天';
+    } else if(day.isSame(today, 'year')) {
+      return day.format('MM月DD日')
+    } else {
+      return day.format('YYYY年MM月DD日');
+    }
   }
 }
 </script>
