@@ -18,12 +18,13 @@ import { Component, Prop } from 'vue-property-decorator';
 
 <style lang="scss" scoped>
 .layout-wrapper {
-  min-height: 100vh;
+  height: 100vh;
   display: flex;
   flex-direction: column;
 }
 
 .content {
+  overflow: auto;
   flex-grow: 1;
 }
 </style>
